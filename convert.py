@@ -1,22 +1,24 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+# 
+# 转换 source.csv 为 excel
 
 import csv
-import xlrd
+import xlwt
 from snownlp import SnowNLP
 
 source = open("data/source.csv", "r")
-target = open("data/target.csv", "w")
 
 reader = csv.reader(source)
-writer = csv.writer(target)
+
+workbook = xlwt.Workbook(encoding="utf-8")
+target_book = workbook.add_sheet("数据源", cell_overwrite_ok=True)
 
 for i, line in enumerate(reader):
-	if i == 0:
+	row = target_book.row(i)
+	for j, cell in enumerate(line):
+		row.write(j, cell)
 
+	if i % 100 == 0:
+		target_book.flush_row_data()
 
-	else:
-		# s = SnowNLP(line[10])
-		writer.writerow(line[10])
-
-source.close()
-target.close()
+workbook.save("data/target.xls")
