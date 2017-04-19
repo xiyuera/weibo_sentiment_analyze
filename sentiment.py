@@ -7,6 +7,8 @@ import xlrd
 from xlutils.copy import copy
 from snownlp import SnowNLP
 
+snownlp.load("sentiment/sentiment.marshal")
+
 book = xlrd.open_workbook("data/target.xls", encoding_override='utf-8', formatting_info=True, on_demand=True)
 source_sheet = book.sheet_by_name(u"数据源")
 
